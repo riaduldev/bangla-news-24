@@ -88,10 +88,6 @@ const MainNews = ({ news }: MainNewsProps) => {
           {/* Featured Content */}
           <div className="p-5 sm:p-7">
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-red-50 px-3 py-1 text-xs font-bold text-red-600 dark:bg-red-950/40 dark:text-red-300">
-                {firstNews.category}
-              </span>
-
               <span className="text-xs text-base-content/50">
                 {firstNews.source}
               </span>
