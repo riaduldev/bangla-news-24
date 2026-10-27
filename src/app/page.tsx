@@ -1,11 +1,31 @@
+import MainNews from "@/components/MainNews";
 import Marquee from "@/components/Marquee";
+import MostReadNewsCard from "@/components/MostReadNewsCard";
 
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetch('https://news-api-v2.vercel.app/api/news/sections');
+  const data = await res.json();
+  const sections = data.data;
+  const mainNews = sections[0].articles;
+  // console.log(mainNews);
+  const othersSections = sections.slice(1);
+  // console.log(othersSections);
+
   return (
     <div>
       <Marquee></Marquee>
-      Home
+      
+      <div className="grid grid-cols-3 max-w-7xl mx-0 p-10">
+        {/* news section */}
+        <div className="col-span-2">
+          <MainNews news={mainNews} key={mainNews.id}></MainNews>
+        </div>
+        {/* most read section */}
+        <div className="col-span-1">
+          <MostReadNewsCard></MostReadNewsCard>
+        </div>
+      </div>
     </div>
   );
 }
