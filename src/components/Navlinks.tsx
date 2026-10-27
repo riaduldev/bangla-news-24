@@ -9,7 +9,7 @@ interface NavsCategory {
   scrapable: boolean;
 }
 
-interface CategoriesResponse {
+export interface CategoriesResponse {
   data: NavsCategory[];
 }
 
@@ -53,7 +53,7 @@ const Navlinks = async () => {
           {filteredNavs.map((category) => (
             <Link
               key={category.slug}
-              href={category.url}
+              href={`/category/${category.slug}`}
               className="shrink-0 rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-red-700"
             >
               {category.title}

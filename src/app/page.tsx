@@ -1,5 +1,5 @@
 import MainNews from "@/components/MainNews";
-import Marquee from "@/components/Marquee";
+
 import MostReadNewsCard from "@/components/MostReadNewsCard";
 import NewsCard, { NewsArticle } from "@/components/NewsCard";
 
@@ -26,7 +26,7 @@ export default async function Home() {
     
     <div className="w-full">
   {/* Breaking News Marquee */}
-  <Marquee />
+ 
 
   {/* Main Content */}
   <main className="mx-auto w-full max-w-7xl px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-8">
