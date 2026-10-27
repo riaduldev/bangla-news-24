@@ -1,57 +1,3 @@
-// import Image from 'next/image';
-
-// interface NewsArticle {
-//   id: string;
-//   title: string;
-//   description: string;
-//   link: string;
-//   imageUrl: string;
-//   imageAlt: string;
-//   category: string;
-//   type: string;
-//   isLive: boolean;
-//   firstPublished: string;
-//   lastPublished: string;
-//   source: string;
-// }
-
-
-// const MainNews = ({news}:{news:NewsArticle[]}) => {
-//     // console.log(news);
-//     const [firstNews, ...othersNews] = news;
-    
-//     return (
-//         <div className='flex gap-2'>
-//             <div className="card bg-base-100 w-96 shadow-sm">
-//   <figure>
-//     <Image
-//     width={600}
-//     height={600}
-//     src={firstNews.imageUrl}
-//     alt={firstNews.imageAlt}
-//     />
-//   </figure>
-//   <div className="card-body">
-//     <p className='text-red-600 font-semibold'>{firstNews.category}</p>
-//     <h2 className="card-title">{firstNews.title}</h2>
-//     <p>{firstNews.description}</p>
-//   </div>
-// </div>
-
-// <div>
-//     {
-//         othersNews.slice(0, 4).map((news) => <div key={news.id} className='card bg-base-100 border border-gray-300 p-5'>
-//             <p className='text-red-600 font-semibold'>{firstNews.category}</p>
-//             {news.title}
-//             </div>)
-//     }
-// </div>
-//         </div>
-//     );
-// };
-
-// export default MainNews;
-
 
 import Image from "next/image";
 import Link from "next/link";
@@ -176,35 +122,33 @@ const MainNews = ({ news }: MainNewsProps) => {
         {/* Other News */}
         <div className="flex flex-col gap-4 lg:col-span-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-base-content">
-              আরও খবর
-            </h3>
+            <h3 className="text-lg font-bold text-base-content">আরও খবর</h3>
             <span className="text-xs text-base-content/50">
               {Math.min(otherNews.length, 4)}টি সংবাদ
             </span>
           </div>
 
           <div className="flex flex-col gap-3">
-  {otherNews.slice(0, 4).map((item) => (
-    <Link
-      key={item.id}
-      href={item.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group rounded-lg border border-base-300 bg-base-100 p-3 transition-colors hover:border-red-300 hover:bg-base-200/50 sm:p-4"
-    >
-      {/* Category */}
-      <p className="mb-1.5 text-xs font-semibold text-red-600 sm:text-sm">
-        {item.category}
-      </p>
+            {otherNews.slice(0, 4).map((item) => (
+              <Link
+                key={item.id}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-lg border border-base-300 bg-base-100 p-3 transition-colors hover:border-red-300 hover:bg-base-200/50 sm:p-4"
+              >
+                {/* Category */}
+                <p className="mb-1.5 text-xs font-semibold text-red-600 sm:text-sm">
+                  {item.category}
+                </p>
 
-      {/* News Title */}
-      <h4 className="text-sm font-bold leading-6 text-base-content transition-colors group-hover:text-red-600 sm:text-base">
-        {item.title}
-      </h4>
-    </Link>
-  ))}
-</div>
+                {/* News Title */}
+                <h4 className="text-sm font-bold leading-6 text-base-content transition-colors group-hover:text-red-600 sm:text-base">
+                  {item.title}
+                </h4>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
