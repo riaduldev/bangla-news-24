@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Navlinks from "./Navlinks";
+import UserInfo from "./UserInfo";
 
 
 const Header = () => {
@@ -34,15 +35,7 @@ const Header = () => {
     </div>
 
     {/* Auth Buttons */}
-    <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-      <button className="btn btn-sm border-gray-300 bg-white text-gray-700 hover:bg-gray-100 sm:btn-md">
-        সাইন ইন
-      </button>
-
-      <button className="btn btn-sm border-red-700 bg-red-700 text-white hover:border-red-800 hover:bg-red-800 sm:btn-md">
-        সাইন আপ
-      </button>
-    </div>
+    <UserInfo></UserInfo>
 
   </div>
   <Navlinks></Navlinks>
