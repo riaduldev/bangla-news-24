@@ -24,8 +24,7 @@ const NewsCard = ({news}:{news:NewsArticle}) => {
     <div className="w-full min-w-0">
   <article className="group h-full w-full min-w-0 overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-300 hover:shadow-lg sm:rounded-2xl">
     <Link
-      href={news.link}
-      target="_blank"
+      href={`/news/${news.id}`}
       rel="noopener noreferrer"
       className="flex h-full min-w-0 flex-col"
     >

@@ -2,13 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'ichef.bbci.co.uk',
-      },
-    ],
-  },
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "ichef.bbci.co.uk",
+      pathname: "/**",
+    },
+  ],
+},
   /* config options here */
   reactCompiler: true,
   turbopack: {
