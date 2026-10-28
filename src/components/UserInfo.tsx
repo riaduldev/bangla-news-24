@@ -1,4 +1,3 @@
-
 "use client";
 
 import { signOut, useSession } from "@/lib/auth-client";
@@ -35,9 +34,7 @@ const UserInfo = () => {
     return (
       <div className="flex items-center gap-2 rounded-full border border-base-300 bg-base-100 px-4 py-2 shadow-sm">
         <span className="loading loading-spinner loading-sm text-primary" />
-        <span className="text-sm text-base-content/60">
-          অপেক্ষা করুন...
-        </span>
+        <span className="text-sm text-base-content/60">অপেক্ষা করুন...</span>
       </div>
     );
   }
@@ -46,30 +43,27 @@ const UserInfo = () => {
     <div className="flex w-full items-center justify-center sm:w-auto sm:justify-end">
       {user ? (
         <div className="flex w-full max-w-sm items-center gap-3 rounded-2xl bg-base-100 p-3 shadow-md transition-all duration-300 hover:shadow-lg sm:w-auto sm:min-w-64">
-          <div className="avatar shrink-0">
-            <div className="w-12 overflow-hidden rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100 sm:w-14">
-              <Image
-                width={56}
-                height={56}
-                alt={`${user.name ?? "ব্যবহারকারী"}-এর প্রোফাইল ছবি`}
-                src={user.image ?? "/default-avatar.png"}
-                className="h-full w-full object-cover"
-              />
+          <Link href={"/profile"}>
+            <div className="avatar shrink-0">
+              <div className="w-12 overflow-hidden rounded-full sm:w-14">
+                <Image
+                  width={56}
+                  height={56}
+                  alt={`${user.name ?? "ব্যবহারকারী"}-এর প্রোফাইল ছবি`}
+                  src={user.image ?? "/default-avatar.jpg"}
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
-          </div>
+          </Link>
 
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-bold text-base-content sm:text-base">
               {user.name ?? "ব্যবহারকারী"}
             </p>
-            <p className="truncate text-xs text-base-content/60 sm:text-sm">
-              {user.email}
-            </p>
             <div className="mt-1 flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-success" />
-              <span className="text-xs text-success">
-                লগইন করা আছে
-              </span>
+              <span className="text-xs text-success">লগইন করা আছে</span>
             </div>
           </div>
 

@@ -38,6 +38,18 @@ const SignInPage = () => {
     }
   };
 
+  const handleGoogle = async () => {
+    const data = await signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithub = async () => {
+    const data = await signIn.social({
+      provider: "github",
+    });
+  };
+
   return (
     <main className="flex min-h-[75vh] items-center justify-center px-4 py-10 sm:min-h-[85vh] sm:px-6">
       <section className="w-full max-w-md overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-xl">
@@ -47,9 +59,7 @@ const SignInPage = () => {
             <span aria-hidden="true">📰</span>
           </div>
 
-          <h1 className="text-2xl font-bold sm:text-3xl">
-            আবার স্বাগতম!
-          </h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">স্বাগতম!</h1>
 
           <p className="mt-2 text-sm text-white/85 sm:text-base">
             আপনার অ্যাকাউন্টে সাইন ইন করুন
@@ -111,6 +121,25 @@ const SignInPage = () => {
                 "সাইন ইন করুন"
               )}
             </button>
+
+            {/* //Auto Sign Btn */}
+            <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <button
+                type="button"
+                onClick={handleGoogle}
+                className="btn w-full min-w-0 bg-white text-sm text-black shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-800 hover:text-white hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 sm:flex-1"
+              >
+                Google দিয়ে লগইন
+              </button>
+
+              <button
+                type="button"
+                onClick={handleGithub}
+                className="btn w-full min-w-0 bg-white text-sm text-black shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-800 hover:text-white hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 sm:flex-1"
+              >
+                GitHub দিয়ে লগইন
+              </button>
+            </div>
           </form>
 
           <p className="mt-6 text-center text-xs leading-relaxed text-base-content/60 sm:text-sm">
@@ -124,18 +153,13 @@ const SignInPage = () => {
 
 export default SignInPage;
 
-
-
-
-
 ///////
 
-// before ai 
+// before ai
 // "use client"
 
 // import { signIn } from "@/lib/auth-client";
 // import { redirect } from "next/navigation";
-
 
 // const SignInPage = () => {
 //     const onSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
