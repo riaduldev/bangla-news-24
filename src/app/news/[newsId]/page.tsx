@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 
 type NewsBodyBlock = {
@@ -60,7 +61,7 @@ const NewsDetailsPage = async ({ params }: NewsDetailsPageProps) => {
   const newsData = result.data;
 
   if (!newsData) {
-    throw new Error("News article not found");
+    notFound();
   }
 
   const leadImage =

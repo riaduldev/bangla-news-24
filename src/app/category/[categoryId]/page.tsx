@@ -1,5 +1,6 @@
 
 import NewsCard, { type NewsArticle } from "@/components/NewsCard";
+import { notFound } from "next/navigation";
 
 type CategoryDetailsPageProps = {
   params: Promise<{
@@ -27,6 +28,10 @@ const CategoryDetailsPage = async ({
 
   const data: CategoryApiResponse = await res.json();
   const newsData = data.data;
+
+  if(!newsData) {
+    notFound()
+  }
 
   return (
     <div className="mx-auto my-5 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
