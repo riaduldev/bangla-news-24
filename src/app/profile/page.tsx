@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "@/lib/auth-client";
+import { getAvatarUrl } from "@/lib/avatar";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -67,7 +68,7 @@ const ProfilePage = () => {
                     width={112}
                     height={112}
                     alt={`${user.name ?? "ব্যবহারকারী"}-এর প্রোফাইল ছবি`}
-                    src={user.image || "/default-avatar.jpg"}
+                    src={getAvatarUrl(user.image)}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -174,45 +175,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-
-
-
-
-
-// Before Ai 
-
-// "use client"
-
-// import { useSession } from "@/lib/auth-client";
-// import Image from "next/image";
-// import Link from "next/link";
-
-
-
-// const ProfilePage = () => {
-//     const { data: session } = useSession();
-//       const user = session?.user;
-//     //   console.log(user, 'form profile page');
-//     return (
-//         <div>
-//             <Link href={"/profile"}>
-//             <div className="avatar shrink-0">
-//               <div className="w-12 overflow-hidden rounded-full sm:w-14">
-//                 <Image
-//                   width={56}
-//                   height={56}
-//                   alt={`${user?.name ?? "ব্যবহারকারী"}-এর প্রোফাইল ছবি`}
-//                   src={user?.image ?? "/default-avatar.jpg"}
-//                   className="h-full w-full object-cover"
-//                 />
-//                 <p className="truncate text-xs text-base-content/60 sm:text-sm">
-//               {user?.email}
-//             </p>
-//               </div>
-//             </div>
-//           </Link>
-//         </div>
-//     );
-// };
-
-// export default ProfilePage;

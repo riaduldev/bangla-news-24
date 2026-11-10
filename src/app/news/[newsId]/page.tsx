@@ -163,7 +163,6 @@ const NewsDetailsPage = async ({ params }: NewsDetailsPageProps) => {
         {/* Featured Image */}
         {heroImage && (
           <figure className="mx-auto mb-10 max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <Image
   src={heroImage}
   width={leadImage?.width ?? 1200}
@@ -221,7 +220,6 @@ const NewsDetailsPage = async ({ params }: NewsDetailsPageProps) => {
                           key={`image-${index}`}
                           className="my-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <Image
                             src={block.url}
                             alt={

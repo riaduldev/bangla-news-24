@@ -1,23 +1,29 @@
 "use client";
 
 import { signOut, useSession } from "@/lib/auth-client";
+import { getAvatarUrl } from "@/lib/avatar";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const UserInfo = () => {
   const { data: session, isPending } = useSession();
   const user = session?.user;
   const router = useRouter();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
+    setIsSigningOut(true);
+
     try {
       const { error } = await signOut({
         fetchOptions: {
           onSuccess: () => {
             toast.success("সফলভাবে সাইন আউট হয়েছে!");
-            router.push("/signin");
+            router.replace("/signin");
+            router.refresh();
           },
         },
       });
@@ -27,6 +33,8 @@ const UserInfo = () => {
       }
     } catch {
       toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
@@ -50,7 +58,7 @@ const UserInfo = () => {
                   width={56}
                   height={56}
                   alt={`${user.name ?? "ব্যবহারকারী"}-এর প্রোফাইল ছবি`}
-                  src={user.image ?? "/default-avatar.jpg"}
+                  src={getAvatarUrl(user.image)}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -70,9 +78,14 @@ const UserInfo = () => {
           <button
             type="button"
             onClick={handleSignOut}
+            disabled={isSigningOut}
             className="btn bg-red-700 btn-sm shrink-0 rounded-xl px-3 text-white transition-transform hover:scale-105"
           >
-            সাইন আউট
+            {isSigningOut ? (
+              <span className="loading loading-spinner loading-xs" />
+            ) : (
+              "সাইন আউট"
+            )}
           </button>
         </div>
       ) : (

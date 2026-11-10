@@ -1,4 +1,3 @@
-
 "use client";
 
 import { signUp } from "@/lib/auth-client";
@@ -10,10 +9,10 @@ import { toast } from "react-toastify";
 const SignUpPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
 
@@ -21,6 +20,19 @@ const SignUpPage = () => {
     const image = String(formData.get("image") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+    if (password.length < 8) {
+      toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("দুটি পাসওয়ার্ড মেলেনি। আবার চেষ্টা করুন।");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       const { error } = await signUp.email({
@@ -40,6 +52,7 @@ const SignUpPage = () => {
 
       toast.success("আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
       router.replace("/");
+      router.refresh();
     } catch {
       toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     } finally {
@@ -139,20 +152,50 @@ const SignUpPage = () => {
                 পাসওয়ার্ড
               </label>
 
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="কমপক্ষে ৮ অক্ষর লিখুন"
+                  autoComplete="new-password"
+                  minLength={8}
+                  required
+                  className="input input-bordered w-full rounded-xl bg-base-100 pr-16 focus:border-red-700 focus:outline-red-700"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2 py-1 text-xs font-semibold text-base-content/60 transition hover:text-red-700"
+                >
+                  {showPassword ? "লুকান" : "দেখান"}
+                </button>
+              </div>
+
+              <p className="text-xs text-base-content/55">
+                নিরাপদ পাসওয়ার্ড ব্যবহার করুন।
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="confirmPassword"
+                className="text-sm font-semibold text-base-content"
+              >
+                পাসওয়ার্ড নিশ্চিত করুন
+              </label>
+
               <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="কমপক্ষে ৮ অক্ষর লিখুন"
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                placeholder="আবার পাসওয়ার্ড লিখুন"
                 autoComplete="new-password"
                 minLength={8}
                 required
                 className="input input-bordered w-full rounded-xl bg-base-100 focus:border-red-700 focus:outline-red-700"
               />
-
-              <p className="text-xs text-base-content/55">
-                নিরাপদ পাসওয়ার্ড ব্যবহার করুন।
-              </p>
             </div>
 
             <button
@@ -193,64 +236,3 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
-
-
-
-
-
-//////////
-// Before Ai 
-
-// 'use client'
-
-// import { signUp } from "@/lib/auth-client";
-// import { redirect } from "next/navigation";
-// import React from "react";
-
-// const SignUpPage = () => {
-//     const onSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
-//         e.preventDefault();
-//         const formData = new FormData(e.target);
-//         const user = Object.fromEntries(formData.entries()) as {name:string, email: string , password:string, image:string};
-
-//         // console.log(user);
-
-//         const {data, error} = await signUp.email({
-//              ...user,
-//              callbackURL: "/"
-//         })
-//         if(data) {
-//             console.log(data);
-//             redirect("/")
-//         }
-//         if(error){
-//             console.log(error);
-//         }
-
-//     }
-//     return (
-//         <div className="flex flex-col items-center justify-center mt-5">
-//             <h2 className="font-bold text-3xl">Sign-Up Now</h2>
-//              <form onSubmit={onSubmit}>
-//             <fieldset className="fieldset border-base-300 rounded-box w-xs p-4">
-
-//  <label className="label">Name</label>
-//   <input name="name" type="text" className="input" placeholder="Name" />
-
-//  <label className="label">Image URL</label>
-//   <input name="image" type="url" className="input" placeholder="URL" />
-
-//   <label className="label">Email</label>
-//   <input name="email" type="email" className="input" placeholder="Email" />
-
-//   <label className="label">Password</label>
-//   <input name="password" type="password" className="input" placeholder="Password" />
-
-//   <button type="submit" className="btn bg-red-700 text-white mt-4">Sign-Up</button>
-// </fieldset>
-//            </form>
-//         </div>
-//     );
-// };
-
-// export default SignUpPage;

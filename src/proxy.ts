@@ -1,21 +1,32 @@
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { auth } from './lib/auth'
+import { NextResponse, type NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
 
-// This function can be marked `async` if using `await` inside
+// Next 16 renamed `middleware.ts` to `proxy.ts`. Only one proxy file is
+// supported and it must sit next to `app/` (here: `src/proxy.ts`).
 export async function proxy(request: NextRequest) {
+  try {
     const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
-})
-const user = session?.user;
+      headers: request.headers,
+    });
 
-if(!user) {
-return NextResponse.redirect(new URL('/signin', request.url))
-}
-  
+    if (!session?.user) {
+      const signInUrl = new URL("/signin", request.url);
+      signInUrl.searchParams.set(
+        "callbackURL",
+        `${request.nextUrl.pathname}${request.nextUrl.search}`
+      );
+
+      return NextResponse.redirect(signInUrl);
+    }
+  } catch (error) {
+    // Never lock the user out because of a transient database error; the
+    // protected pages re-check the session on the client anyway.
+    console.error("Proxy session check failed:", error);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/profile', '/profile/edit', '/news/:path'],
-}
+  matcher: ["/profile", "/profile/edit"],
+};

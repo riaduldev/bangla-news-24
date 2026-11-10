@@ -5,9 +5,15 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { toast } from "react-toastify";
 
+type SocialProvider = "google" | "github";
+
 const SignInPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingProvider, setLoadingProvider] = useState<SocialProvider | null>(
+    null
+  );
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +37,7 @@ const SignInPage = () => {
 
       toast.success("সফলভাবে সাইন ইন হয়েছে!");
       router.replace("/");
+      router.refresh();
     } catch {
       toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     } finally {
@@ -38,16 +45,23 @@ const SignInPage = () => {
     }
   };
 
-  const handleGoogle = async () => {
-    const data = await signIn.social({
-      provider: "google",
-    });
-  };
+  const handleSocial = async (provider: SocialProvider) => {
+    setLoadingProvider(provider);
 
-  const handleGithub = async () => {
-    const data = await signIn.social({
-      provider: "github",
-    });
+    try {
+      const { error } = await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message || "লগইন করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    } catch {
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+      setLoadingProvider(null);
+    }
   };
 
   return (
@@ -96,15 +110,25 @@ const SignInPage = () => {
                 পাসওয়ার্ড
               </label>
 
-              <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="আপনার পাসওয়ার্ড লিখুন"
-                autoComplete="current-password"
-                required
-                className="input input-bordered w-full rounded-xl bg-base-100 outline-none transition focus:border-red-700 focus:outline-red-700"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="আপনার পাসওয়ার্ড লিখুন"
+                  autoComplete="current-password"
+                  required
+                  className="input input-bordered w-full rounded-xl bg-base-100 pr-16 outline-none transition focus:border-red-700 focus:outline-red-700"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2 py-1 text-xs font-semibold text-base-content/60 transition hover:text-red-700"
+                >
+                  {showPassword ? "লুকান" : "দেখান"}
+                </button>
+              </div>
             </div>
 
             <button
@@ -122,21 +146,29 @@ const SignInPage = () => {
               )}
             </button>
 
-            {/* //Auto Sign Btn */}
+            {/* Social login */}
             <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4">
               <button
                 type="button"
-                onClick={handleGoogle}
+                onClick={() => handleSocial("google")}
+                disabled={loadingProvider !== null}
                 className="btn w-full min-w-0 bg-white text-sm text-black shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-800 hover:text-white hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 sm:flex-1"
               >
+                {loadingProvider === "google" ? (
+                  <span className="loading loading-spinner loading-sm" />
+                ) : null}
                 Google দিয়ে লগইন
               </button>
 
               <button
                 type="button"
-                onClick={handleGithub}
+                onClick={() => handleSocial("github")}
+                disabled={loadingProvider !== null}
                 className="btn w-full min-w-0 bg-white text-sm text-black shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-800 hover:text-white hover:shadow-lg disabled:translate-y-0 disabled:opacity-70 sm:flex-1"
               >
+                {loadingProvider === "github" ? (
+                  <span className="loading loading-spinner loading-sm" />
+                ) : null}
                 GitHub দিয়ে লগইন
               </button>
             </div>
@@ -152,52 +184,3 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
-
-///////
-
-// before ai
-// "use client"
-
-// import { signIn } from "@/lib/auth-client";
-// import { redirect } from "next/navigation";
-
-// const SignInPage = () => {
-//     const onSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
-//         e.preventDefault();
-//         const formData = new FormData(e.target);
-//         const user = Object.fromEntries(formData.entries()) as {name:string, email: string , password:string, image:string};
-
-//         // console.log(user);
-//         const {data, error} = await signIn.email({
-//                      ...user,
-//                      callbackURL: "/"
-//                 })
-//                 if(data) {
-//                     console.log(data);
-//                     redirect("/")
-//                 }
-//                 if(error){
-//                     console.log(error);
-//                 }
-
-//     }
-//     return (
-//         <div className="flex flex-col items-center justify-center mt-5">
-//             <h2 className="font-bold text-3xl">Sign-In Now</h2>
-//              <form onSubmit={onSubmit}>
-//             <fieldset className="fieldset border-base-300 rounded-box w-xs p-4">
-
-//   <label className="label">Email</label>
-//   <input name="email" type="email" className="input" placeholder="Email" />
-
-//   <label className="label">Password</label>
-//   <input name="password" type="password" className="input" placeholder="Password" />
-
-//   <button type="submit" className="btn bg-red-700 text-white mt-4">Sign-In</button>
-// </fieldset>
-//            </form>
-//         </div>
-//     );
-// };
-
-// export default SignInPage;

@@ -54,9 +54,9 @@ export default function NotFound() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-500 sm:text-base sm:leading-8">
-            The page you're looking for may have been removed,
+            The page you&rsquo;re looking for may have been removed,
             had its name changed, or is temporarily unavailable.
-            Let's get you back to the latest news.
+            Let&rsquo;s get you back to the latest news.
           </p>
         </div>
 

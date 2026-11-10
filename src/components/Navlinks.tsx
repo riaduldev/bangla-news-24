@@ -50,6 +50,13 @@ const Navlinks = async () => {
             হোম
           </Link>
 
+          <Link
+            href="/news"
+            className="shrink-0 rounded-md px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+          >
+            সব খবর
+          </Link>
+
           {filteredNavs.map((category) => (
             <Link
               key={category.slug}
